@@ -1,5 +1,6 @@
 import React from "react";
 import { Navbar, NavbarBrand } from "reactstrap";
+import MenuContextProvider from "./context/MenuContext";
 import MenuComponent from "./components/MenuComponent";
 import "./App.css";
 
@@ -11,7 +12,9 @@ function App() {
           <NavbarBrand href="/">Ristorante Con Fusion</NavbarBrand>
         </div>
       </Navbar>
-      <MenuComponent />
+      <MenuContextProvider>
+        <MenuComponent />
+      </MenuContextProvider>
     </div>
   );
 }
