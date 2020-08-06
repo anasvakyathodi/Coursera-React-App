@@ -1,15 +1,18 @@
 import React from "react";
 import MenuContextProvider from "./context/MenuContext";
+import { BrowserRouter } from "react-router-dom";
 import Main from "./components/MainComponent";
 import "./App.css";
 
 function App() {
   return (
-    <div className="App">
-      <MenuContextProvider>
-        <Main />
-      </MenuContextProvider>
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        <MenuContextProvider>
+          <Main />
+        </MenuContextProvider>
+      </div>
+    </BrowserRouter>
   );
 }
 

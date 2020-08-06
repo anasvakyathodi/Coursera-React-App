@@ -13,7 +13,11 @@ function MenuComponent() {
       </Card>
     </div>
   ));
-  return <div className="row">{menu}</div>;
+  return (
+    <div className="container">
+      <div className="row">{menu}</div>
+    </div>
+  );
 }
 
 export default MenuComponent;
