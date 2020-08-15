@@ -9,7 +9,7 @@ import { COMMENTS } from "../context/Comments";
 import { PROMOTIONS } from "../context/Promotions";
 import { DISHES } from "../context/dishes";
 import { LEADERS } from "../context/leaders";
-// import Dishdetail from "./DishdetailComponent";
+import Dishdetail from "./DishdetailComponent";
 import { Route, Switch, Redirect } from "react-router-dom";
 function App() {
   const dishes = DISHES;
@@ -26,6 +26,21 @@ function App() {
       />
     );
   }
+  const DishWithId = ({ match }) => {
+    return (
+      <Dishdetail
+        dish={
+          dishes.filter(
+            (dish) => dish.id === parseInt(match.params.dishId, 10)
+          )[0]
+        }
+        comments={comments.filter(
+          (comment) => comment.dishId === parseInt(match.params.dishId, 10)
+        )}
+      />
+    );
+  };
+
   return (
     <>
       <Header />
@@ -34,6 +49,7 @@ function App() {
         <Route component={Menu} exact path="/menu" />
         <Route component={About} exact path="/aboutus" />
         <Route component={Contact} exact path="/contactus" />
+        <Route path="/menu/:dishId" component={DishWithId} />
         <Redirect to="/home" />
       </Switch>
       <Footer />
