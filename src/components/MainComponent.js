@@ -41,13 +41,17 @@ function App() {
     );
   };
 
+  const AboutwithLeader = () => {
+    return <About leaders={leaders} />;
+  };
+
   return (
     <>
       <Header />
       <Switch>
         <Route component={HomePage} exact path="/home" />
         <Route component={Menu} exact path="/menu" />
-        <Route component={About} exact path="/aboutus" />
+        <Route component={AboutwithLeader} exact path="/aboutus" />
         <Route component={Contact} exact path="/contactus" />
         <Route path="/menu/:dishId" component={DishWithId} />
         <Redirect to="/home" />
