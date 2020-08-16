@@ -8,6 +8,7 @@ import {
   FormGroup,
   Input,
   Label,
+  FormFeedback,
 } from "reactstrap";
 import { Link } from "react-router-dom";
 function Contact(props) {
@@ -18,13 +19,56 @@ function Contact(props) {
   const [agree, setAgree] = useState(false);
   const [contactType, setContactType] = useState("Tel.");
   const [message, setMessage] = useState("");
+  const [touched, setTouched] = useState({
+    firstname: false,
+    lastname: false,
+    telnum: false,
+    email: false,
+  });
   const handleSubmit = (e) => {
     alert(
       `Current State is : \n First Name: ${firstName},\n Last Name: ${lastName},\nPhone: ${telNum},\nEmail: ${email},\nAgree: ${agree},\nContactType: ${contactType},\nMessage: ${message}\n`
     );
     e.preventDefault();
+    setFirstName("");
+    setLastName("");
+    setTelNum("");
+    setEmail("");
+    setAgree(false);
+    setContactType("Tel.");
+    setMessage("");
+  };
+  const handleBlur = (field) => {
+    setTouched({ ...touched, [field]: true });
+  };
+  const validate = (firstname, lastname, telnum, email) => {
+    const errors = {
+      firstname: "",
+      lastname: "",
+      telnum: "",
+      email: "",
+    };
+
+    if (touched.firstname && firstname.length < 3)
+      errors.firstname = "First Name should be >= 3 characters";
+    else if (touched.firstname && firstname.length > 10)
+      errors.firstname = "First Name should be <= 10 characters";
+
+    if (touched.lastname && lastname.length < 3)
+      errors.lastname = "Last Name should be >= 3 characters";
+    else if (touched.lastname && lastname.length > 10)
+      errors.lastname = "Last Name should be <= 10 characters";
+
+    const reg = /^\d+$/;
+    if (touched.telnum && !reg.test(telnum))
+      errors.telnum = "Tel. Number should contain only numbers";
+
+    if (touched.email && email.split("").filter((x) => x === "@").length !== 1)
+      errors.email = "Email should contain a @";
+    return errors;
   };
 
+  const errors = validate(firstName, lastName, telNum, email);
   return (
     <div className="container">
       <div className="row">
@@ -102,8 +146,12 @@ function Contact(props) {
                   name="firstname"
                   placeholder="First Name"
                   value={firstName}
+                  valid={errors.firstname === ""}
+                  invalid={errors.firstname !== ""}
+                  onBlur={() => handleBlur("firstname")}
                   onChange={(e) => setFirstName(e.target.value)}
                 />
+                <FormFeedback>{errors.firstname}</FormFeedback>
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -117,8 +165,12 @@ function Contact(props) {
                   name="lastname"
                   placeholder="Last Name"
                   value={lastName}
+                  valid={errors.lastname === ""}
+                  invalid={errors.lastname !== ""}
+                  onBlur={() => handleBlur("lastname")}
                   onChange={(e) => setLastName(e.target.value)}
                 />
+                <FormFeedback>{errors.lastname}</FormFeedback>
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -132,8 +184,12 @@ function Contact(props) {
                   name="telnum"
                   placeholder="Contact Number"
                   value={telNum}
+                  valid={errors.telnum === ""}
+                  invalid={errors.telnum !== ""}
+                  onBlur={() => handleBlur("telnum")}
                   onChange={(e) => setTelNum(e.target.value)}
                 />
+                <FormFeedback>{errors.telnum}</FormFeedback>
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -147,8 +203,12 @@ function Contact(props) {
                   name="email"
                   placeholder="Email"
                   value={email}
+                  valid={errors.email === ""}
+                  invalid={errors.email !== ""}
+                  onBlur={() => handleBlur("email")}
                   onChange={(e) => setEmail(e.target.value)}
                 />
+                <FormFeedback>{errors.email}</FormFeedback>
               </Col>
             </FormGroup>
             <FormGroup row>
