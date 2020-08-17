@@ -2,17 +2,63 @@ import React, { useState } from "react";
 import {
   Navbar,
   NavbarBrand,
-  Jumbotron,
-  NavItem,
   Nav,
-  Collapse,
   NavbarToggler,
+  Collapse,
+  NavItem,
+  Jumbotron,
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  Form,
+  FormGroup,
+  Input,
+  Label,
 } from "reactstrap";
 import { NavLink } from "react-router-dom";
+
 function Header() {
   const [toggleNav, setToggleNav] = useState(false);
+  const [toggleModal, setToggleModal] = useState(false);
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const username = e.target.username.value;
+    const password = e.target.password.value;
+    const remember = e.target.remember.value;
+    alert(
+      `username: ${username}\npassword: ${password}\nRemember Password:${remember}`
+    );
+  };
+
   return (
     <>
+      <Modal isOpen={toggleModal} toggle={() => setToggleModal(!toggleModal)}>
+        <ModalHeader toggle={() => setToggleModal(!toggleModal)}>
+          Login
+        </ModalHeader>
+        <ModalBody>
+          <Form onSubmit={handleLogin}>
+            <FormGroup>
+              <Label htmlFor="username">Username</Label>
+              <Input type="text" id="username" name="username" />
+            </FormGroup>
+            <FormGroup>
+              <Label htmlFor="password">Password</Label>
+              <Input type="password" id="password" name="password" />
+            </FormGroup>
+            <FormGroup check>
+              <Label check>
+                <Input type="checkbox" name="remember" />
+                Remember me
+              </Label>
+            </FormGroup>
+            <Button type="submit" value="submit" color="primary">
+              Login
+            </Button>
+          </Form>
+        </ModalBody>
+      </Modal>
       <Navbar dark expand="md">
         <div className="container">
           <NavbarToggler onClick={() => setToggleNav(!toggleNav)} />
@@ -48,6 +94,13 @@ function Header() {
               </NavItem>
             </Nav>
           </Collapse>
+          <Nav className="ml-auto" navbar>
+            <NavItem>
+              <Button outline onClick={() => setToggleModal(!toggleModal)}>
+                <span className="fa fa-sign-in fa-lg"></span> Login
+              </Button>
+            </NavItem>
+          </Nav>
         </div>
       </Navbar>
       <Jumbotron>
