@@ -5,19 +5,14 @@ import Menu from "./MenuComponent";
 import Home from "./HomeComponent";
 import About from "./AboutComponent";
 import Contact from "./ContactComponent";
-import { COMMENTS } from "../context/Comments";
-import { PROMOTIONS } from "../context/Promotions";
-import { DISHES } from "../context/dishes";
-import { LEADERS } from "../context/leaders";
 import Dishdetail from "./DishdetailComponent";
 import { Route, Switch, Redirect } from "react-router-dom";
-function App() {
-  const dishes = DISHES;
-  const comments = COMMENTS;
-  const promotions = PROMOTIONS;
-  const leaders = LEADERS;
+import { useSelector } from "react-redux";
 
-  function HomePage() {
+export function Main() {
+  const initialState = useSelector((state) => state);
+  const { dishes, comments, promotions, leaders } = initialState;
+  const HomePage = () => {
     return (
       <Home
         dish={dishes.filter((dish) => dish.featured)[0]}
@@ -25,7 +20,8 @@ function App() {
         leader={leaders.filter((leader) => leader.featured)[0]}
       />
     );
-  }
+  };
+
   const DishWithId = ({ match }) => {
     return (
       <Dishdetail
@@ -61,4 +57,4 @@ function App() {
   );
 }
 
-export default App;
+export default Main;
