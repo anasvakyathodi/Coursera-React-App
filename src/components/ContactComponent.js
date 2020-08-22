@@ -8,7 +8,13 @@ import {
   Col,
   Label,
 } from "reactstrap";
-import { Control, LocalForm } from "react-redux-form";
+import { Control, LocalForm, Errors } from "react-redux-form";
+const required = (val) => val && val.length;
+const maxLength = (len) => (val) => !val || val.length <= len;
+const minLength = (len) => (val) => val && val.length >= len;
+const isNumber = (val) => !isNaN(Number(val));
+const validEmail = (val) =>
+  /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);
 function Contact(props) {
   // const [firstName, setFirstName] = useState("");
   // const [lastName, setLastName] = useState("");
@@ -145,6 +151,21 @@ function Contact(props) {
                   name="firstname"
                   placeholder="First Name"
                   className="form-control"
+                  validators={{
+                    required,
+                    minLength: minLength(3),
+                    maxLength: maxLength(15),
+                  }}
+                />
+                <Errors
+                  className="text-danger"
+                  model=".firstname"
+                  show="touched"
+                  messages={{
+                    required: "Required",
+                    minLength: "Must be greater than 2 characters",
+                    maxLength: "Must be 15 characters or less",
+                  }}
                 />
               </Col>
             </Row>
@@ -159,6 +180,21 @@ function Contact(props) {
                   name="lastname"
                   placeholder="Last Name"
                   className="form-control"
+                  validators={{
+                    required,
+                    minLength: minLength(3),
+                    maxLength: maxLength(15),
+                  }}
+                />
+                <Errors
+                  className="text-danger"
+                  model=".lastname"
+                  show="touched"
+                  messages={{
+                    required: "Required",
+                    minLength: "Must be greater than 2 characters",
+                    maxLength: "Must be 15 characters or less",
+                  }}
                 />
               </Col>
             </Row>
@@ -171,8 +207,25 @@ function Contact(props) {
                   model=".telnum"
                   id="telnum"
                   name="telnum"
-                  placeholder="Contact Number"
+                  placeholder="Tel. Number"
                   className="form-control"
+                  validators={{
+                    required,
+                    minLength: minLength(3),
+                    maxLength: maxLength(15),
+                    isNumber,
+                  }}
+                />
+                <Errors
+                  className="text-danger"
+                  model=".telnum"
+                  show="touched"
+                  messages={{
+                    required: "Required",
+                    minLength: "Must be greater than 2 numbers",
+                    maxLength: "Must be 15 numbers or less",
+                    isNumber: "Must be a number",
+                  }}
                 />
               </Col>
             </Row>
@@ -187,6 +240,19 @@ function Contact(props) {
                   name="email"
                   placeholder="Email"
                   className="form-control"
+                  validators={{
+                    required,
+                    validEmail,
+                  }}
+                />
+                <Errors
+                  className="text-danger"
+                  model=".email"
+                  show="touched"
+                  messages={{
+                    required: "Required",
+                    validEmail: "Invalid Email Address",
+                  }}
                 />
               </Col>
             </Row>
