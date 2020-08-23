@@ -1,0 +1,8 @@
+import { PROMOTIONS } from "../context/Promotions";
+
+export const Promotions = (state = PROMOTIONS, action) => {
+  switch (action.type) {
+    default:
+      return state;
+  }
+};
